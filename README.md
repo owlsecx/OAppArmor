@@ -18,24 +18,18 @@
 
 ## 📌 Overview
 
-Offline AppArmor profile auditor & hardening advisor
+OAppArmor is an offline, read-only auditor for AppArmor confinement policy that never modifies the profiles it reads. Its tolerant parser understands profiles, hats, child profiles, flags, includes, variables and every rule class, and it can evaluate a live system or any mounted image, backup or container rootfs via --root. More than 45 detection rules are mapped to CWE and MITRE ATT&CK with per-profile scoring and an overall A+…F grade.
 
 ---
 
 ## ✨ Features
 
-- Tolerant AppArmor policy parser — profiles, hats, child profiles, flags, include / include if exists, abi, alias, variables (@{VAR}), conditionals, and every rule class: file, capability, network, mount, remount, umount, pivot_root, ptrace, signal, dbus, unix, change_profile, rlimit, userns, io_uring, mqueue
-- Offline scan of /etc/apparmor.d under any --root (mounted images, backups, container rootfs)
-- Variable expansion from tunables/ with sane defaults
-- AppArmor-glob → regex engine with deny-precedence evaluation of sensitive targets (/proc/*/mem, shadow…)
-- 45+ detection rules mapped to CWE + MITRE ATT&CK with severity, rationale and concrete remediation
-- Disabled (disable/) and force-complain detection
-- High-risk binary coverage check (known list)
-- Per-profile score + overall A+…F grade
-- Reports: TXT / Markdown / JSON / CSV / SARIF 2.1.0
-- CI gate: --fail-on SEVERITY, --min-severity filter
-- --demo self-test with synthetic weak/hardened tree
-- Read-only by design — never modifies policy
+- Tolerant parser for profiles, hats, child profiles, includes, variables and all rule classes
+- Offline scanning of /etc/apparmor.d under any --root (images, backups, rootfs)
+- AppArmor-glob → regex engine with deny-precedence on sensitive targets
+- 45+ rules mapped to CWE + MITRE ATT&CK with severity and remediation
+- High-risk binary coverage checks and complain/disabled-profile detection
+- Per-profile score, A+…F grade and export to TXT/MD/JSON/CSV/SARIF 2.1.0
 
 ---
 
@@ -49,7 +43,10 @@ Offline AppArmor profile auditor & hardening advisor
 ## 🚀 Usage
 
 ```bash
-./OAppArmor
+./OAppArmor --scan
+./OAppArmor --profile /etc/apparmor.d/usr.sbin.nginx --format json
+./OAppArmor --root /mnt/image --scan --fail-on high
+./OAppArmor --help
 ```
 
 ---
